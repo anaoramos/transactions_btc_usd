@@ -1,0 +1,27 @@
+{
+  "name": "node-examples",
+  "version": "1.0.0",
+  "description": "Simple node examples",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "author": "Ana Ramos",
+  "license": "ISC",
+  "dependencies": {
+    "pg": "^8.2.2",
+    "pgtools": "^0.3.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anaoramos/transactions_btc_usd.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/anaoramos/transactions_btc_usd/issues"
+  },
+  "homepage": "https://github.com/anaoramos/transactions_btc_usd#readme"
+}
