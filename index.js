@@ -1,5 +1,5 @@
 
-var create_db = require('./database/create_db');
+//var create_db = require('./database/create_db');
 
 const uphold = require('./upholdRequests');
 var ticker_USDBTC = 'https://api.uphold.com/v0/ticker/USD-BTC';
