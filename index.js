@@ -1,5 +1,3 @@
-var rect = require('./rectangle');
-
 
 var create_db = require('./database/create_db');
 
