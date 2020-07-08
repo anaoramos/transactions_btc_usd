@@ -1,5 +1,5 @@
 {
-  "name": "node-examples",
+  "name": "package",
   "version": "1.0.0",
   "description": "Simple node examples",
   "main": "index.js",
@@ -11,8 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "pg": "^8.2.2",
-    "pgtools": "^0.3.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "express": "^4.17.1",
+    "http": "^0.0.1-security"
   },
   "devDependencies": {},
   "repository": {
