@@ -4,7 +4,7 @@
   "description": "Simple node examples",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node index"
   },
   "author": "Ana Ramos",
@@ -13,7 +13,8 @@
     "pg": "^8.2.2",
     "request": "^2.88.2",
     "express": "^4.17.1",
-    "http": "^0.0.1-security"
+    "http": "^0.0.1-security",
+    "jest": "^26.1.0"
   },
   "devDependencies": {},
   "repository": {
