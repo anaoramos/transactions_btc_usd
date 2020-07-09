@@ -10,57 +10,51 @@ var ticker_BTCUSD = 'https://api.uphold.com/v0/ticker/BTC-USD';
 var idTimeout;
 
 class CheckMarket {
-     checkProfit() {
+
+    checkProfit(profit_per) {
+        if (profit_per < 5) {
+            return null;
+        }
+        else {
+            clearTimeout(idTimeout);
+            return 0;
+        }
+    }
+
+    sellMoney() {
+        var this_ = this;
+        
+        
         uphold.getTicker_pair(ticker_BTCUSD, function (error, response, body_sell) {
             //var ask = body.ask;
             var revenue = body_sell.bid; //preco max que comprador paga
+            console.log(body_sell);
+            console.log('1BTC price: ', revenue, 'USD')
             var profit = revenue - expense;
             profit = profit / revenue * 100;
-
-            if (profit < 5) {
-                console.log('Profit of ', profit, '%. No action pesrformed.');
+            var action = checkMarket.checkProfit(profit);
+            if (action){
+                console.log('Profit of ', profit, '%. Moving 1 BTC to USD.');
             }
             else {
-                console.log('Profit of ', profit, '%. Moving 1 BTC to USD.');
-                clearTimeout(timeOut_id);
+                console.log('Profit of ', profit, '%. No action performed.');
             }
+            
+            
         });
     }
 
-    setInter( obj, time_){
-        var oldSI = setTimeout;
-        setInterval = function (fn, delay) {
-            var id = oldSI(fn, delay);
-            idTimeout = id;
-            return id;
-          };
-        setTimeout(obj, time_);
-
-    }
-
-    clearTimeout(id) {   
-        var oldCT = clearTimeout;
-    
-        clearTimeout = function (id) {
-          oldCT(id);
-          idTimeout = null;
-        };
-    
-        clearTimeout(id);
-        
-
-      }
-
     firstPurchase() {
-        //create_db.create_db();
+        var this_=this;
+        create_db.create_db();
         //create_db.create_table('account', 'btc VARCHAR(255)');
         uphold.getTicker_pair(ticker_USDBTC, function (error, response, body) {
             var ask = body.ask;
             expense = 1 / ask;
             console.log('Buying 1 BTC...\nPrice:', expense, 'USD');
             //reate_db.insert_value('account', 'btc', '1')
-         
-            this.setInter(checkProfit, 5000);
+          
+            idTimeout =  setInterval(this_.sellMoney, 5000);
 
         });
     }

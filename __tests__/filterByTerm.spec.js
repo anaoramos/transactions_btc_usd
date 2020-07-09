@@ -1,18 +1,18 @@
-const uphold = require('./index');
 
-describe("Filter function", () => {
+const uphold = require('../upholdRequests');
+const checkMarket = require('../checkMarket');
+
+
+describe("checkProfit function", () => {
     // test stuff
-    test("it should filter by a search term (link)", () => {
-        // actual test
-        const input = [
-            { id: 1, url: "https://www.url1.dev" },
-            { id: 2, url: "https://www.url2.dev" },
-            { id: 3, url: "https://www.link3.dev" }
-          ];
 
-        const output = [{ id: 3, url: "https://www.link3.dev" }];
+    test("Testing check profit < 5", () => {
+      expect(checkMarket.checkProfit(4)).toEqual(null);
+     
 
-        expect(filterByTerm(input, "https://www.url2.dev")).toEqual(output);
+    });
+      test("Testing check profit > 5", () => {
+        expect(checkMarket.checkProfit(5)).toEqual(0);
 
       });
   });

@@ -3,6 +3,10 @@ var request = require('request');
 var ticker_USDBTC = 'https://api.uphold.com/v0/ticker/USD-BTC';
 
 class UpholdRequests { 
+
+    sum(a, b) {
+    return a + b;
+    }
  
     doRequest(url, method, callback) {
         // Set the headers
@@ -30,7 +34,6 @@ class UpholdRequests {
         })
       }
     
-
   getTicker_pair(url, callback){
       this.doRequest(url, 'GET', function (error, response, body) {
             if (error) {

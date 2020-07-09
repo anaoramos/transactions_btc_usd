@@ -14,15 +14,38 @@ const pool = new Pool({
 
 class PostgresOperations {
 
-    create_db() {
-        var query = "CREATE DATABASE " + database_name ;
+    verifyDatabase(callback) {
+        var query = "SELECT datname FROM pg_catalog.pg_database WHERE datname='"+ database_name+"'";
+        
         new Pool().query(
             query,
             (err, res) => {
-                console.log(err, res);
-                //pool.end();
+                callback(err, res.rowCount);
             }
         );
+    }
+    
+
+    create_db() {
+        this.verifyDatabase(function(err, rows_number) {
+            console.log('fff', rows_number)
+            if (rows_number > 0) {
+                console.log('Database '+database_name+ ' already exists.');
+            }
+            else {
+                var query = "CREATE DATABASE " + database_name;
+                new Pool().query(
+                    query,
+                    (err, res) => {
+                        console.log(err, res);
+                     
+                        //pool.end();
+                    }
+                );
+            }  
+
+        })
+        
     }
 
     create_table(name, parameters) {
