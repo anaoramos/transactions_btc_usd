@@ -1,4 +1,4 @@
-var create_db = require('./database/db_operations');
+var postgresOperations = require('./database/db_operations');
 const uphold = require('./upholdRequests');
 
 var expense;
@@ -27,8 +27,7 @@ class CheckMarket {
         
         uphold.getTicker_pair(ticker_BTCUSD, function (error, response, body_sell) {
             //var ask = body.ask;
-            var revenue = body_sell.bid; //preco max que comprador paga
-            console.log(body_sell);
+            var revenue = body_sell.ask; //preco max que comprador paga
             console.log('1BTC price: ', revenue, 'USD')
             var profit = revenue - expense;
             profit = profit / revenue * 100;
@@ -46,15 +45,17 @@ class CheckMarket {
 
     firstPurchase() {
         var this_=this;
-        create_db.create_db();
-        //create_db.create_table('account', 'btc VARCHAR(255)');
+        
         uphold.getTicker_pair(ticker_USDBTC, function (error, response, body) {
-            var ask = body.ask;
-            expense = 1 / ask;
+            var bid = body.bid;
+            expense = 1 / bid;
             console.log('Buying 1 BTC...\nPrice:', expense, 'USD');
-            //reate_db.insert_value('account', 'btc', '1')
+            postgresOperations.insert_value('account', 'btc', '1').then((response) => {
+                console.log(response);
+                idTimeout =  setInterval(this_.sellMoney, 5000);
+            })
           
-            idTimeout =  setInterval(this_.sellMoney, 5000);
+            
 
         });
     }

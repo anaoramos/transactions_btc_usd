@@ -4,7 +4,7 @@
   "description": "Simple node examples",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit",
     "start": "node index"
   },
   "author": "Ana Ramos",
