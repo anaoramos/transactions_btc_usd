@@ -1,4 +1,5 @@
 const { Pool, Client } = require("pg");
+
 const uphold = require('../upholdRequests');
 
 const database_name = 'anaramos';
@@ -14,23 +15,28 @@ const pool = new Pool({
 
 class PostgresOperations {
 
-    verifyDatabase(callback) {
-        var query = "SELECT datname FROM pg_catalog.pg_database WHERE datname='"+ database_name+"'";
+    async verifyDatabase(name) {
+        let response;
+        try {
+            var query = "SELECT datname FROM pg_catalog.pg_database WHERE datname='" + name + "'";
+      
+            response = await new Pool().query(query);
+                     
+            return response.rowCount
+        }
+        catch(error){
+            console.error(error)
+        };
         
-        new Pool().query(
-            query,
-            (err, res) => {
-                callback(err, res.rowCount);
-            }
-        );
+           
     }
-    
+
 
     create_db() {
-        this.verifyDatabase(function(err, rows_number) {
-            console.log('fff', rows_number)
-            if (rows_number > 0) {
-                console.log('Database '+database_name+ ' already exists.');
+        const rows_number =  postgresOperations.verifyDatabase('anaramos');
+        postgresOperations.verifyDatabase('anaramos').then(function(rows_number){
+            if (rows_number>0){
+                console.log('Database already exists.')
             }
             else {
                 var query = "CREATE DATABASE " + database_name;
@@ -42,11 +48,12 @@ class PostgresOperations {
                         //pool.end();
                     }
                 );
-            }  
 
+            }
         })
-        
+       
     }
+
 
     create_table(name, parameters) {
 
@@ -55,7 +62,7 @@ class PostgresOperations {
         pool.query(
             query,
             (err, res) => {
-                if (err){console.error(err)};
+                if (err) { console.error(err) };
                 //pool.end();
             }
         );
@@ -67,7 +74,7 @@ class PostgresOperations {
         pool.query(
             "INSERT INTO account( btc )VALUES('1')",
             (err, res) => {
-                if (err){console.error(err)};
+                if (err) { console.error(err) };
                 pool.end();
             }
         );
@@ -76,7 +83,7 @@ class PostgresOperations {
 
 
 var postgresOperations = new PostgresOperations();
-  
+
 module.exports = postgresOperations;
 
 /*
