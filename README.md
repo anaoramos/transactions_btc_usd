@@ -14,7 +14,7 @@ The transactions are registered in Postgres. You can define the database and tab
 You should have Postgres installed. The bot transactions are registered in a Postgres database.
 
 
-### Installing
+### Starting
 In the project directory, you can run:
 
 ### `npm start`
