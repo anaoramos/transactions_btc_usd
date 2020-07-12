@@ -1,7 +1,9 @@
 # Transactions BTC-USD
 
 This project uses the Uphold API to create a bot that can move money between BTC and USD. <br>
-The transactions are not actually carried out, only the intent is logged.<br>
+The transactions are not actually carried out, only the intent is logged.
+
+
 To start the bot, it buys 1 BTC and waits for the best opportunity to sell it (5% profit). Once the BTC has been sold, it buys 1 BTC again.<br>
 The transactions are registered in Postgres. You can define the database and table names in the config.js file. The default names are "Transactions" and "Wallet".
 
