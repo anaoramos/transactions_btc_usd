@@ -1,6 +1,7 @@
 # Transactions BTC-USD
 
-This project uses the Uphold API to create a bot that can move money between BTC and USD. The transactions are not actually carried out, only the intent is logged.
+This project uses the Uphold API to create a bot that can move money between BTC and USD. <br>
+The transactions are not actually carried out, only the intent is logged.
 
 
 
