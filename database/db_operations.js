@@ -1,13 +1,11 @@
 const { Pool, Client } = require("pg");
+const config = require('../configs')
 
-
-
-const database_name = 'anaramos';
 
 const pool = new Pool({
     user: "postgres",
     host: "localhost",
-    database: database_name,
+    database: config.database_name,
     password: "1234",
     port: "5432"
 });
@@ -43,8 +41,6 @@ class PostgresOperations {
     }
 
 
-
-
     async create_table(name, parameters) {
 
         let response;
@@ -58,7 +54,6 @@ class PostgresOperations {
         };
     }
 
-    //insert_value("account", "btc", "1")
     async insert_value(table_name, parameters_name, values) {
 
         let response;
@@ -72,30 +67,49 @@ class PostgresOperations {
         };
     }
 
-    _init() {
-        var db_name = 'anaramosx';
-        var table_name = 'account';
-        var values_table = 'btc VARCHAR(255)';
+    async select_last_row(table_name, parameters_to_select, colums_to_order) {
 
+        let response;
+        try {
+            var query = "SELECT (" + parameters_to_select + ") FROM " + table_name + " ORDER BY " + colums_to_order + " DESC LIMIT 1";
+            response = await pool.query(query);
+            response = response.rows[0];
+            return response.row;
+        }
+        catch (error) {
+            console.error(error)
+        };
+
+    }
+
+    _init() {
         try {
             //Create Database
-            postgresOperations.verifyDatabase(db_name).then(function (rows_number) {
+            postgresOperations.verifyDatabase(config.database_name).then(function (rows_number) {
                 if (rows_number > 0) {
-                    console.log('Database already exists.');
-                }
-                else {
-                    postgresOperations.create_database(db_name).then(function (response) {
-                        console.log(response)
+                    //console.log('Database already exists.');
+                    postgresOperations.create_table(config.table_name, 'card_id NUMERIC, btc_cash NUMERIC, usd_balance NUMERIC, destination VARCHAR(255), timestamp NUMERIC').then(function (response) {
+                        //console.log(response);
+                        postgresOperations.insert_value(config.table_name, 'card_id, btc_cash, usd_balance, destination, timestamp', [config.account_id, 0, 0, "'-'", Date.now()]).then((response) => {
+                            //console.log(response);
+                            return console.log("Database Status: OK");
+                        });
                     })
                 }
-
-                //Create Table
-                postgresOperations.create_table(table_name, values_table).then(function (response) {
-                    console.log(response);
-                    return console.log("Database Status: OK");
-                })
-
-
+                else {
+                    postgresOperations.create_database(config.database_name).then(function (response) {
+                        //console.log(response);
+                        postgresOperations.create_table(config.table_name, 'card_id NUMERIC, btc_cash NUMERIC, usd_balance NUMERIC, destination VARCHAR(255), timestamp NUMERIC').then(function (response) {
+                            //console.log(response);
+                            postgresOperations.insert_value(config.table_name, 'card_id, btc_cash, usd_balance, destination, timestamp', [config.account_id, 0, 0, "'-'", Date.now()]).then((response) => {
+                                //console.log(response);
+                                return console.log("Database Status: OK");
+        
+                            });
+        
+                        })
+                    })
+                }
             });
         }
         catch (error) { console.error(error) };

@@ -6,19 +6,11 @@ const checkMarket = require('./checkMarket');
 
 
 
-var db_name = 'anaramos';
-var table_name = 'account';
-var values_table = 'btc VARCHAR(255)';
 
-
-
-
-
-
+// init()
 postgresOperations._init();
+checkMarket.buyMoney();
 
-checkMarket.firstPurchase();
-//checkMarket.checkProfit();
 
 
 
